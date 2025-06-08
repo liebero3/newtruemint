@@ -8,27 +8,30 @@ export default function sidePages(){
     const { slug } = useParams()
     useEffect(()=>{
         async function posten(){
-            const rohDaten = fetch("/api/sideInhalt/",{
+            const rohDaten = await fetch("/api/sideInhalt/",{
                 method:"POST",
                 headers: {
                     "Content-Type": "application/json",
-                  },
+                },
                 body: JSON.stringify({
-                    slug:slug
+                    slug: slug
                 })
             })
+
             //@ts-ignore
             if(!rohDaten.ok){
                 console.error("Fehler!", rohDaten)
                 //@ts-ignore
                 setInhalt(`Error:${rohDaten.status}`)
+                return
             }
-            const realInhalt = (await rohDaten).json()
+
+            const realInhalt = await rohDaten.json()
             //@ts-ignore
             setInhalt(realInhalt.content)
         }
         posten()
-    },[slug,inhalt])
+    },[slug])
     return(
         <>
             <div>
