@@ -35,6 +35,9 @@ export default function ArchiveArticle(){
       {article && (
         <ReactMarkdown
           components={{
+            h3: (props) => (
+              <p className="text-[1.75rem] text-justify my-3 font-semibold" {...props} />
+            ),
             ul: (props) => <ul className="list-disc pl-6 text-2xl" {...props} />,
             li: (props) => <li className="text-2xl" {...props} />,
           }}
