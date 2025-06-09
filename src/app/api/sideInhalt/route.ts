@@ -1,6 +1,8 @@
 import fs from "fs"
 import { NextResponse } from "next/server"
 import path from "path"
+//@ts-expect-error req type is from next 13 fetch
+
 import mime from "mime-types"
 
 function encodePath(p: string) {
