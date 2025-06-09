@@ -1,8 +1,6 @@
 
 
-![image (2).png](.attachments.1331504/image%20%282%29.png)
-
-*.*
+![image (2).png](.attachments.1331504/image.png)
 
 Der blaue Balken in unserem Schul-Logo steht für unsere MINT-Säule.
 
