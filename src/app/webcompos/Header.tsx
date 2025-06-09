@@ -21,7 +21,7 @@ export default function Header({bild="/luise.jpg",className,children}:{bild?:str
     return(
         <>
             <motion.div initial={{opacity:0}} animate={{opacity:1,transition:{duration:1}}} className={`flex p-3 justify-between max-w-150 lg:max-w-200 mx-auto ${className}`}>
-                <img src={bild} alt="" className=" w-30"/>
+                <img src={bild} className=" w-30" alt="" />
                 {children}
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
