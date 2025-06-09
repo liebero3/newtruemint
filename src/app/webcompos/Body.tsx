@@ -19,8 +19,8 @@ export default function Body(){
             <div className=" max-w-150 lg:max-w-200 justify-self-center text-2xl">
                 <ReactMarkdown
                     components={{
-                        h2:({node,...props})=><p className=" text-3xl text-justify my-5 font-bold"{...props}/>,
-                        p:({node,...props})=><p className=" text-2xl text-justify"{...props}/>,  
+                        h2: (props) => <p className=" text-3xl text-justify my-5 font-bold" {...props} />,
+                        p: (props) => <p className=" text-2xl text-justify" {...props} />,
                     }}>
                     {fileInhalt}
                 </ReactMarkdown>

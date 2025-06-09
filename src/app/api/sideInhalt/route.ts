@@ -1,7 +1,7 @@
 import fs from "fs"
 import { NextResponse } from "next/server"
 import path from "path"
-//@ts-ignore
+//@ts-expect-error req type is from next 13 fetch
 export async function POST(req){
     const { slug } = await req.json()
 
