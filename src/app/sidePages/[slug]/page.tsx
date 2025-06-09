@@ -57,9 +57,9 @@ export default function SidePages(){
             {inhalt && (
                 <ReactMarkdown
                     components={{
-                        h2:({node,...props})=> <p className="text-3xl text-justify my-5 font-bold" {...props}/>,
-                        p:({node,...props})=> <p className="text-2xl text-justify" {...props}/>,
-                        img:({node,...props})=> <img className="my-4" {...props}/>
+                        h2:({...props})=> <p className="text-3xl text-justify my-5 font-bold" {...props}/>,
+                        p:({...props})=> <p className="text-2xl text-justify" {...props}/>,
+                        img:({...props})=> <img className="my-4" {...props}/>
                     }}>
                     {inhalt}
                 </ReactMarkdown>
