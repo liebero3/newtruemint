@@ -1,9 +1,11 @@
 import fs from "fs"
 import { NextResponse, NextRequest } from "next/server"
 import path from "path"
+
 function encodePath(p: string) {
     return p.split(path.sep).map(encodeURIComponent).join("/")
 }
+
 export async function POST(req: NextRequest){
     const { slug } = await req.json()
 
