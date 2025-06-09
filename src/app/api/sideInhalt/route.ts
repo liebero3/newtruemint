@@ -1,6 +1,11 @@
 import fs from "fs"
 import { NextResponse } from "next/server"
 import path from "path"
+import mime from "mime-types"
+
+function encodePath(p: string) {
+    return p.split(path.sep).map(encodeURIComponent).join("/")
+}
 //@ts-ignore
 export async function POST(req){
     const { slug } = await req.json()
@@ -25,7 +30,16 @@ export async function POST(req){
 
     const inhalt = fs.readFileSync(targetPath, "utf-8")
 
+    const dirOfFile = path.dirname(targetPath)
+    const processed = inhalt.replace(/!\[[^\]]*\]\((\.attachments[^)]+)\)/g, (_m, p1) => {
+        const abs = path.join(dirOfFile, p1)
+        const rel = path.relative(baseDir, abs)
+        if (rel.startsWith("..")) return _m
+        const encoded = encodePath(rel)
+        return `![](/api/attachment?path=${encoded})`
+    })
+
     return NextResponse.json({
-        content: inhalt
+        content: processed
     })
 }
