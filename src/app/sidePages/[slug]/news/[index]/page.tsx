@@ -32,7 +32,16 @@ export default function NewsArticle(){
 
   return (
     <div className="max-w-150 lg:max-w-200 mx-auto">
-      {article && <ReactMarkdown>{article}</ReactMarkdown>}
+      {article && (
+        <ReactMarkdown
+          components={{
+            ul: (props) => <ul className="list-disc pl-6 text-2xl" {...props} />,
+            li: (props) => <li className="text-2xl" {...props} />,
+          }}
+        >
+          {article}
+        </ReactMarkdown>
+      )}
       <Link href={`/sidePages/${slug}`} className="underline mt-4 inline-block">zurück</Link>
     </div>
   )
