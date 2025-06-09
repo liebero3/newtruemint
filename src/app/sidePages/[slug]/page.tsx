@@ -60,6 +60,8 @@ export default function SidePages(){
                         h2: (props) => <p className="text-3xl text-justify my-5 font-bold" {...props}/>,
                         p: (props) => <p className="text-2xl text-justify" {...props}/>,
                         img: (props) => <img className="my-4" alt="" {...props}/>
+                        ul: (props) => <ul className="list-disc pl-6 text-2xl" {...props}/>,
+                        li: (props) => <li className="text-2xl" {...props}/>,
                     }}>
                     {inhalt}
                 </ReactMarkdown>
