@@ -20,7 +20,11 @@ const inter = Inter({
 export default function Header({bild="/luise.jpg",className,children}:{bild?:string, className?:string, children?:ReactNode}){
     return(
         <>
-            <motion.div initial={{opacity:0}} animate={{opacity:1,transition:{duration:1}}} className={`flex p-3 justify-between max-w-150 lg:max-w-200 mx-auto ${className}`}>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 1 } }}
+                className={`sticky top-0 z-50 flex p-3 justify-between bg-white max-w-150 lg:max-w-200 mx-auto ${className}`}
+            >
                 <img src={bild} className=" w-30" alt="" />
                 {children}
                 <DropdownMenu>
