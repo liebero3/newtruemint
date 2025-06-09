@@ -11,11 +11,6 @@ export default function SidePages(){
     const [archive,setArchive] = useState<string[]>([])
     const { slug } = useParams<{ slug: string }>()
 
-
-export default function sidePages(){
-    const [inhalt,setInhalt] = useState<string>()
-    const { slug } = useParams()
-
     useEffect(()=>{
         async function laden(){
             const baseRes = await fetch("/api/sideInhalt/",{
@@ -58,60 +53,53 @@ export default function sidePages(){
     },[slug])
 
     return(
-        <>
-            <div className="max-w-150 lg:max-w-200 mx-auto">
-                {inhalt && (
-                    <ReactMarkdown className="mb-10">{inhalt}</ReactMarkdown>
-                )}
+        <div className="max-w-150 lg:max-w-200 mx-auto">
+            {inhalt && (
+                <ReactMarkdown
+                    components={{
+                        h2:({node,...props})=> <p className="text-3xl text-justify my-5 font-bold" {...props}/>,
+                        p:({node,...props})=> <p className="text-2xl text-justify" {...props}/>,
+                        img:({node,...props})=> <img className="my-4" {...props}/>
+                    }}>
+                    {inhalt}
+                </ReactMarkdown>
+            )}
 
-                {news.length > 0 && (
-                    <>
-                        <h2 className="text-3xl font-bold mb-4">Aktuelles</h2>
-                        {news.map((art,i)=>{
-                            const { heading, snippet, image } = articleIntro(art)
-                            return (
-                                <div key={i} className="border rounded-md shadow p-4 mb-4">
-                                    <ReactMarkdown>{`## ${heading}`}</ReactMarkdown>
-                                    {image && <img src={image} className="my-2 max-h-60" alt="" />}
-                                    <p>{snippet}...</p>
-                                    <Link href={`/sidePages/${slug}/news/${i}`} className="mt-2 inline-block underline">mehr</Link>
-                                </div>
-                            )
-                        })}
-                    </>
-                )}
+            {news.length > 0 && (
+                <>
+                    <h2 className="text-3xl font-bold mb-4">Aktuelles</h2>
+                    {news.map((art,i)=>{
+                        const { heading, snippet, image } = articleIntro(art)
+                        return (
+                            <div key={i} className="border rounded-md shadow p-4 mb-4">
+                                <ReactMarkdown>{`## ${heading}`}</ReactMarkdown>
+                                {image && <img src={image} className="my-2 max-h-60" alt="" />}
+                                <p>{snippet}...</p>
+                                <Link href={`/sidePages/${slug}/news/${i}`} className="mt-2 inline-block underline">mehr</Link>
+                            </div>
+                        )
+                    })}
+                </>
+            )}
 
-                {archive.length > 0 && (
-                    <>
-                        <h2 className="text-3xl font-bold my-4">Archiv</h2>
-                        {archive.map((art,i)=>{
-                            const { heading, snippet, image } = articleIntro(art)
-                            return (
-                                <div key={i} className="border rounded-md shadow p-4 mb-4">
-                                    <ReactMarkdown>{`## ${heading}`}</ReactMarkdown>
-                                    {image && <img src={image} className="my-2 max-h-60" alt="" />}
-                                    <p>{snippet}...</p>
-                                    <Link href={`/sidePages/${slug}/archive/${i}`} className="mt-2 inline-block underline">mehr</Link>
-                                </div>
-                            )
-                        })}
-                    </>
-                )}
+            {archive.length > 0 && (
+                <>
+                    <h2 className="text-3xl font-bold my-4">Archiv</h2>
+                    {archive.map((art,i)=>{
+                        const { heading, snippet, image } = articleIntro(art)
+                        return (
+                            <div key={i} className="border rounded-md shadow p-4 mb-4">
+                                <ReactMarkdown>{`## ${heading}`}</ReactMarkdown>
+                                {image && <img src={image} className="my-2 max-h-60" alt="" />}
+                                <p>{snippet}...</p>
+                                <Link href={`/sidePages/${slug}/archive/${i}`} className="mt-2 inline-block underline">mehr</Link>
+                            </div>
+                        )
+                    })}
+                </>
+            )}
 
-                <Link href="/">zurück</Link>
-            <div className=" max-w-150 lg:max-w-200 justify-self-center text-2xl">
-                {inhalt && (
-                    <ReactMarkdown
-                        components={{
-                            h2:({node,...props})=> <p className=" text-3xl text-justify my-5 font-bold" {...props}/>,
-                            p:({node,...props})=> <p className=" text-2xl text-justify" {...props}/>,
-                            img:({node,...props})=> <img className="my-4" {...props}/>
-                        }}>
-                        {inhalt}
-                    </ReactMarkdown>
-                )}
-                <Link href={"/"}>zurück</Link>
-            </div>
-        </>
+            <Link href="/">zurück</Link>
+        </div>
     )
 }
