@@ -855,12 +855,13 @@ wenn du das alles jetzt hast, suchst du dir ein FTP-programm (auf deutch:Datenü
 /* wenn du aber jetzt pro update des codes deines webs das nicht immer wieder neu hochladen willst, erstellst du eine "deploy.mjs" datei: */
 
 
+import "dotenv/config";
 import FtpDeploy from "ftp-deploy";
 const ftpDeploy = new FtpDeploy();
 
 const config = { // die daten hier bekommst du vom Host, oder vom FTP-programm
   user: "f017756f",
-  password: "Pu88gptM4K3GtfKCwPUn",
+  password: process.env.FTP_PASSWORD,
   host: "w009f86e.kasserver.com",
   port: 21,
   localRoot: "./out",           
