@@ -1,15 +1,10 @@
 import fs from "fs"
-import { NextResponse } from "next/server"
+import { NextResponse, NextRequest } from "next/server"
 import path from "path"
-//@ts-expect-error req type is from next 13 fetch
-
-import mime from "mime-types"
-
 function encodePath(p: string) {
     return p.split(path.sep).map(encodeURIComponent).join("/")
 }
-//@ts-ignore
-export async function POST(req){
+export async function POST(req: NextRequest){
     const { slug } = await req.json()
 
     const baseDir = path.join(process.cwd(), "src/app/realDelo/ErsteSeite")

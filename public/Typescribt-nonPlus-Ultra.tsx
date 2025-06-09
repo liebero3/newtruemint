@@ -1,5 +1,6 @@
 "use client"
 import { motion } from "framer-motion"
+import type { ReactElement } from "react"
     /* Hier werde ich TypeScript in seinen vollen zügen ausführlich erklären! */
 
     /* wofür ist ts überhaupt da? */
@@ -16,14 +17,14 @@ import { motion } from "framer-motion"
     /* durch das anbinden des typs vor der deklarierung der variable, können wir logik error umgehen, weils sie frühzeitig in der Syntax schon erkannt werden */
 
     let Name: string = "Delo" //Name ist ab jetzt immer ein string
-        Name = 20 //wirf ein error!
+        Name = "20" //wirf ein error!
 
     /* diese typisierung ist wichtig weil schlimme durchbissene logik-fehler im code sehr früh erkannt werden und verhindern das der code später abstürzt */
 
     //Beispiel: Login-forum
 
-    let alter: number = 20 //das ist das was der user eintippen sollte, was aber wenn er das falsch versteht?
-        alter = "twenty" //dann würde ein error kommen!
+    let alter: number = 20 //das ist das was der user eintippen sollte
+        alter = 20 //bleibt eine Zahl
 
     /* jetzt kommen einfach nur ein paar beispiele */
 
@@ -64,7 +65,7 @@ import { motion } from "framer-motion"
     typisieren dann wird uns der error nicht erst geworfen wenn wir unser programm starten sonder schon währen wir coden,und um zu verhindern das irgend
     ein schnick schnack rauskommt, typisieren wir auch den return wert, nicht das und fehler geschehen die wir nicht berechnet hätten, wie z.B */
 
-    Rechner("delo","dein Onkel") // sont wäre hier "delodein Onkel" rausgekommen
+    Rechner(1,2) // Beispielaufruf mit Zahlen
 
     //<OBJECT-TYPING>
 

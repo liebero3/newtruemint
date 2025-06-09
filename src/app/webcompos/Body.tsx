@@ -1,6 +1,5 @@
 "use client"
 import { useEffect, useState } from "react"
-import Header from "./Header"
 import ReactMarkdown from "react-markdown"
 
 export default function Body(){
@@ -15,7 +14,6 @@ export default function Body(){
     },[])
     return(
         <>
-            <Header/>
             <div className=" max-w-150 lg:max-w-200 justify-self-center text-2xl">
                 <ReactMarkdown
                     components={{
