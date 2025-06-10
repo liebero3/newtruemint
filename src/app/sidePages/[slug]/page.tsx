@@ -10,8 +10,8 @@ export async function generateStaticParams(){
     const entries = fs.readdirSync(baseDir)
     return entries.filter(n => n !== 'Readme.md').map(n => ({ slug: n.replace(/\.md$/, '') }))
 }
-
-export default function SidePages({ params }: { params: { slug: string } }){
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function SidePages({ params }: any){
     const relative = slugToRelative(params.slug)
     if(!relative) return notFound()
     const content = loadMarkdown(relative)
