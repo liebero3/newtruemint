@@ -16,7 +16,7 @@ export function loadMarkdown(relativePath: string){
   let text = fs.readFileSync(filePath, 'utf-8')
   const dirOfFile = path.dirname(filePath)
   text = text.replace(/!\[[^\]]*\]\((\.attachments[^)]+)\)/g, (_m,p1)=>{
-    const abs = path.join(dirOfFile, p1)
+    const abs = path.join(dirOfFile, decodeURIComponent(p1))
     const dataUrl = embedAttachment(abs)
     return `![](${dataUrl})`
   })

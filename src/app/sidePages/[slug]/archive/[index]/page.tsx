@@ -15,7 +15,7 @@ export async function generateStaticParams(){
   }
   return params
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function ArchiveArticle({ params }: any){
   const file = fileMap[params.slug]?.archive
   if(!file) return notFound()
