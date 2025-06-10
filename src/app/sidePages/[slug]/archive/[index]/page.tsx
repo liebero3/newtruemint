@@ -4,7 +4,7 @@ import { fileMap, splitArticles } from "@/lib/sideFiles"
 import { loadMarkdown } from "@/lib/markdown"
 import { notFound } from "next/navigation"
 
-export function generateStaticParams(){
+export async function generateStaticParams(){
   const params: {slug:string,index:string}[] = []
   for(const slug of Object.keys(fileMap)){
     const file = fileMap[slug]?.archive
@@ -16,7 +16,7 @@ export function generateStaticParams(){
   return params
 }
 
-export default function ArchiveArticle({ params }: { params: { slug: string; index: string } }){
+export default function ArchiveArticle({ params }: any){
   const file = fileMap[params.slug]?.archive
   if(!file) return notFound()
   const content = loadMarkdown(`${params.slug}/${file}`)
