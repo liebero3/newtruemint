@@ -1,74 +1,46 @@
-"use client"
 import Link from "next/link"
-import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import { articleIntro, fileMap, splitArticles } from "@/lib/sideFiles"
+import { loadMarkdown, slugToRelative, baseDir } from "@/lib/markdown"
+import fs from 'fs'
+import path from 'path'
+import { notFound } from "next/navigation"
 
-export default function SidePages(){
-    const [inhalt,setInhalt] = useState<string>()
-    const [news,setNews] = useState<string[]>([])
-    const [archive,setArchive] = useState<string[]>([])
-    const { slug } = useParams<{ slug: string }>()
+export async function generateStaticParams(){
+    const entries = fs.readdirSync(baseDir)
+    return entries.filter(n => n !== 'Readme.md').map(n => ({ slug: n.replace(/\.md$/, '') }))
+}
 
-    useEffect(()=>{
-        async function laden(){
-            const baseRes = await fetch("/api/sideInhalt/",{
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
-                body: JSON.stringify({slug})
-            })
-            if(baseRes.ok){
-                const json = await baseRes.json()
-                setInhalt(json.content)
-            } else {
-                setInhalt(`Error:${baseRes.status}`)
-            }
+export default function SidePages({ params }: { params: { slug: string } }){
+    const relative = slugToRelative(params.slug)
+    if(!relative) return notFound()
+    const content = loadMarkdown(relative)
 
-            const files = fileMap[slug as string]
-            if(files?.news){
-                const res = await fetch("/api/sideInhalt/",{
-                    method:"POST",
-                    headers:{"Content-Type":"application/json"},
-                    body: JSON.stringify({slug:`${slug}/${files.news.replace(/\.md$/,"")}`})
-                })
-                if(res.ok){
-                    const j = await res.json()
-                    setNews(splitArticles(j.content))
-                }
-            }
-            if(files?.archive){
-                const res = await fetch("/api/sideInhalt/",{
-                    method:"POST",
-                    headers:{"Content-Type":"application/json"},
-                    body: JSON.stringify({slug:`${slug}/${files.archive.replace(/\.md$/,"")}`})
-                })
-                if(res.ok){
-                    const j = await res.json()
-                    setArchive(splitArticles(j.content))
-                }
-            }
-        }
-        laden()
-    },[slug])
+    const files = fileMap[params.slug]
+    const news: string[] = []
+    const archive: string[] = []
+    if(files?.news){
+        const n = loadMarkdown(path.join(params.slug, files.news))
+        news.push(...splitArticles(n))
+    }
+    if(files?.archive){
+        const a = loadMarkdown(path.join(params.slug, files.archive))
+        archive.push(...splitArticles(a))
+    }
 
-    return(
+    return (
         <div className="max-w-150 lg:max-w-200 mx-auto">
-            {inhalt && (
-                <ReactMarkdown
-                    components={{
-
-                        h2: (props) => (<p className="text-3xl text-justify my-5 font-bold" {...props} />),
-                        h3: (props) => (<p className="text-[1.75rem] text-justify my-3 font-semibold" {...props} />),
-                        p: (props) => (<p className="text-2xl text-justify" {...props} />),
-                        img: (props) => (<img className="my-4" alt="" {...props} />),
-                        ul: (props) => (<ul className="list-disc pl-6 text-2xl" {...props} />),
-                        li: (props) => (<li className="text-2xl" {...props} />),
-
-                    }}>
-                    {inhalt}
-                </ReactMarkdown>
-            )}
+            <ReactMarkdown
+                components={{
+                    h2: (props) => (<p className="text-3xl text-justify my-5 font-bold" {...props} />),
+                    h3: (props) => (<p className="text-[1.75rem] text-justify my-3 font-semibold" {...props} />),
+                    p: (props) => (<p className="text-2xl text-justify" {...props} />),
+                    img: (props) => (<img className="my-4" alt="" {...props} />),
+                    ul: (props) => (<ul className="list-disc pl-6 text-2xl" {...props} />),
+                    li: (props) => (<li className="text-2xl" {...props} />),
+                }}>
+                {content}
+            </ReactMarkdown>
 
             {news.length > 0 && (
                 <>
@@ -80,7 +52,7 @@ export default function SidePages(){
                                 <ReactMarkdown>{`## ${heading}`}</ReactMarkdown>
                                 {image && <img src={image} className="my-2 max-h-60" alt="" />}
                                 <p>{snippet}...</p>
-                                <Link href={`/sidePages/${slug}/news/${i}`} className="mt-2 inline-block underline">mehr</Link>
+                                <Link href={`/sidePages/${params.slug}/news/${i}`} className="mt-2 inline-block underline">mehr</Link>
                             </div>
                         )
                     })}
@@ -97,7 +69,7 @@ export default function SidePages(){
                                 <ReactMarkdown>{`## ${heading}`}</ReactMarkdown>
                                 {image && <img src={image} className="my-2 max-h-60" alt="" />}
                                 <p>{snippet}...</p>
-                                <Link href={`/sidePages/${slug}/archive/${i}`} className="mt-2 inline-block underline">mehr</Link>
+                                <Link href={`/sidePages/${params.slug}/archive/${i}`} className="mt-2 inline-block underline">mehr</Link>
                             </div>
                         )
                     })}
